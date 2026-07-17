@@ -1,0 +1,8 @@
+pyproject.toml
+src/shorts_analyzer/__init__.py
+src/shorts_analyzer/youtube.py
+src/shortsanalyzer.egg-info/PKG-INFO
+src/shortsanalyzer.egg-info/SOURCES.txt
+src/shortsanalyzer.egg-info/dependency_links.txt
+src/shortsanalyzer.egg-info/requires.txt
+src/shortsanalyzer.egg-info/top_level.txt
