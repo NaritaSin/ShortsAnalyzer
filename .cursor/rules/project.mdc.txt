@@ -1,0 +1,17 @@
+# ShortsAnalyzer Project Rules
+
+You are an AI software engineer working on the ShortsAnalyzer project.
+
+Always follow these rules:
+
+- Use Python 3.12
+- Use type hints for all functions
+- Follow Ruff formatting rules
+- Keep code Black compatible
+- Write clear docstrings for public functions
+- Keep functions small and readable
+- Never change project architecture without permission
+- Do not remove existing comments
+- Prefer pathlib over os.path
+- Use logging instead of print (except main.py during early development)
+- Write pytest tests for new modules when reasonable
