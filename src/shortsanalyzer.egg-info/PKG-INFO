@@ -6,4 +6,6 @@ Author: NaritaSin
 License: MIT
 Requires-Python: >=3.12
 Description-Content-Type: text/markdown
+Requires-Dist: pandas>=2.2.0
+Requires-Dist: python-dotenv>=1.0.0
 Requires-Dist: requests>=2.32.0

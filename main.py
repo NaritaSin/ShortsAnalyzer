@@ -6,36 +6,48 @@ import os
 import sys
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 from shorts_analyzer import YouTubeAPIError, YouTubeClient
+from shorts_analyzer.export import save_videos_csv
 
 PROJECT_ROOT = Path(__file__).resolve().parent
+OUTPUT_PATH = PROJECT_ROOT / "output" / "videos.csv"
+CHANNEL_HANDLE = "@雑学をまとめる犬"
+MAX_RESULTS = 10
+
+
+def _load_env() -> None:
+    """Load environment variables from common dotenv file locations."""
+    for path in (PROJECT_ROOT / ".env", PROJECT_ROOT / ".env" / "env"):
+        if path.is_file():
+            load_dotenv(path)
+            return
+
+    load_dotenv()
 
 
 def main() -> None:
-    """Fetch and print the latest uploads for a channel."""
-    api_key = os.environ.get("YOUTUBE_API_KEY", "")
-    channel_id = os.environ.get("YOUTUBE_CHANNEL_ID", "")
+    """Fetch channel videos and save them to CSV."""
+    _load_env()
 
-    if not api_key or not channel_id:
-        print(
-            "Set YOUTUBE_API_KEY and YOUTUBE_CHANNEL_ID environment variables.",
-            file=sys.stderr,
-        )
+    api_key = os.environ.get("YOUTUBE_API_KEY", "")
+    if not api_key:
+        print("Set YOUTUBE_API_KEY in .env", file=sys.stderr)
         sys.exit(1)
 
     client = YouTubeClient(api_key)
 
     try:
-        videos = client.get_latest_videos(channel_id, max_results=5)
+        videos = client.get_channel_videos(CHANNEL_HANDLE, max_results=MAX_RESULTS)
     except YouTubeAPIError as exc:
         print(f"Error: {exc}", file=sys.stderr)
         sys.exit(1)
 
-    print(f"ShortsAnalyzer v0.1.0 — latest uploads for {channel_id}\n")
-    for index, video in enumerate(videos, start=1):
-        print(f"{index}. {video.title}")
-        print(f"   ID: {video.video_id}")
-        print(f"   Published: {video.published_at}\n")
+    save_videos_csv(videos, OUTPUT_PATH)
+
+    print(f"Fetched {len(videos)} videos")
+    print(f"Saved to {OUTPUT_PATH}")
 
 
 if __name__ == "__main__":

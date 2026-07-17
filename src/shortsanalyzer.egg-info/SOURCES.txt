@@ -1,5 +1,6 @@
 pyproject.toml
 src/shorts_analyzer/__init__.py
+src/shorts_analyzer/export.py
 src/shorts_analyzer/youtube.py
 src/shortsanalyzer.egg-info/PKG-INFO
 src/shortsanalyzer.egg-info/SOURCES.txt

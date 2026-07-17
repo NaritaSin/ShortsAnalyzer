@@ -13,6 +13,8 @@ authors = [
     { name = "NaritaSin" }
 ]
 dependencies = [
+    "pandas>=2.2.0",
+    "python-dotenv>=1.0.0",
     "requests>=2.32.0",
 ]
 
@@ -43,3 +45,7 @@ python_files = ["test_*.py"]
 [tool.mypy]
 python_version = "3.12"
 strict = true
+
+[[tool.mypy.overrides]]
+module = ["pandas", "pandas.*"]
+ignore_missing_imports = true
