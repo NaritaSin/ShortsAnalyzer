@@ -14,7 +14,7 @@ from shorts_analyzer.export import save_videos_csv
 PROJECT_ROOT = Path(__file__).resolve().parent
 OUTPUT_PATH = PROJECT_ROOT / "output" / "videos.csv"
 CHANNEL_HANDLE = "@雑学をまとめる犬"
-MAX_RESULTS = 10
+MAX_RESULTS = 100
 
 
 def _load_env() -> None:

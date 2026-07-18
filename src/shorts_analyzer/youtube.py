@@ -78,8 +78,8 @@ class YouTubeClient:
         if not handle:
             msg = "channel_handle must be a non-empty string"
             raise ValueError(msg)
-        if not 1 <= max_results <= 50:
-            msg = "max_results must be between 1 and 50"
+        if max_results < 1:
+            msg = "max_results must be greater than 0"
             raise ValueError(msg)
 
         channel_id = self._resolve_channel_id(handle)
@@ -142,42 +142,63 @@ class YouTubeClient:
         max_results: int,
     ) -> list[VideoRecord]:
         """Return videos from a playlist."""
-        data = self._request(
-            "playlistItems",
-            {
-                "part": "snippet",
-                "playlistId": playlist_id,
-                "maxResults": max_results,
-            },
-        )
 
         collected: list[dict[str, str]] = []
-        for item in data.get("items", []):
-            snippet = item.get("snippet", {})
-            resource_id = snippet.get("resourceId", {})
-            video_id = resource_id.get("videoId")
-            if not isinstance(video_id, str) or not video_id:
-                continue
+        next_page_token: str | None = None
 
-            collected.append(
-                {
-                    "video_id": video_id,
-                    "title": snippet.get("title", ""),
-                    "published_at": snippet.get("publishedAt", ""),
-                    "thumbnail_url": _pick_thumbnail_url(snippet.get("thumbnails", {})),
-                }
-            )
+        while len(collected) < max_results:
+            params = {
+                "part": "snippet",
+                "playlistId": playlist_id,
+                "maxResults": min(50, max_results - len(collected)),
+            }
+
+            if next_page_token:
+                params["pageToken"] = next_page_token
+
+            data = self._request("playlistItems", params)
+
+            for item in data.get("items", []):
+                snippet = item.get("snippet", {})
+                resource_id = snippet.get("resourceId", {})
+                video_id = resource_id.get("videoId")
+
+                if not isinstance(video_id, str) or not video_id:
+                    continue
+
+
+                collected.append(
+                    {
+                        "video_id": video_id,
+                        "title": snippet.get("title", ""),
+                        "published_at": snippet.get("publishedAt", ""),
+                        "thumbnail_url": _pick_thumbnail_url(
+                        snippet.get("thumbnails", {})
+                        ),
+                    }
+                )
+
+            next_page_token = data.get("nextPageToken")
+
+            if not next_page_token:
+                break
 
         if not collected:
             return []
 
-        details_by_id = self._get_video_details(
-            [video["video_id"] for video in collected]
-        )
+        details_by_id: dict[str, dict[str, str]] = {}
+
+        video_ids = [video["video_id"] for video in collected]
+
+        for i in range(0, len(video_ids), 50):
+            batch = video_ids[i : i + 50]
+            details_by_id.update(self._get_video_details(batch))
 
         videos: list[VideoRecord] = []
+
         for video in collected:
             details = details_by_id.get(video["video_id"], {})
+
             videos.append(
                 {
                     "video_id": video["video_id"],
