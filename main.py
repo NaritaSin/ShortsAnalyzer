@@ -21,6 +21,7 @@ from shorts_analyzer.ai.openai_provider import OpenAIProvider
 from shorts_analyzer.export import save_videos_csv
 from shorts_analyzer.generation.idea_generator import Idea, generate_ideas, save_ideas
 from shorts_analyzer.generation.prompt_builder import build_script_prompt
+from shorts_analyzer.generation.scene_planner import ScenePlanner, save_scenes
 from shorts_analyzer.generation.script_generator import ScriptGenerator
 from shorts_analyzer.generation.script_scorer import ScriptScorer, save_script_score
 from shorts_analyzer.knowledge.exporter import export_knowledge
@@ -33,6 +34,7 @@ GENERATED_PATH = PROJECT_ROOT / "generated"
 SCRIPT_PROMPT_PATH = GENERATED_PATH / "script_prompt.txt"
 SCRIPT_PATH = GENERATED_PATH / "script.txt"
 SCRIPT_SCORE_PATH = GENERATED_PATH / "script_score.json"
+SCENES_PATH = GENERATED_PATH / "scenes.json"
 IDEAS_PATH = GENERATED_PATH / "ideas.json"
 KNOWLEDGE_PATH = PROJECT_ROOT / "knowledge"
 CHANNEL_PROFILE_PATH = KNOWLEDGE_PATH / "channel_profile.json"
@@ -117,6 +119,8 @@ def main() -> None:
     )
     script_score = ScriptScorer().score(script_text)
     save_script_score(script_score, SCRIPT_SCORE_PATH)
+    scenes = ScenePlanner().plan_scenes(script_text)
+    save_scenes(scenes, SCENES_PATH)
 
     print(f"Fetched {len(videos)} videos")
     print(f"Saved to {OUTPUT_PATH}")
@@ -125,6 +129,7 @@ def main() -> None:
     print(f"Ideas saved to {IDEAS_PATH}")
     print(f"Script saved to {SCRIPT_PATH}")
     print(f"Script score saved to {SCRIPT_SCORE_PATH}")
+    print(f"Scenes saved to {SCENES_PATH}")
 
     print()
     print("===== Analysis =====")
@@ -283,6 +288,15 @@ def main() -> None:
         print("Issues:")
         for issue in script_score["issues"]:
             print(f"  - {issue}")
+
+    print()
+    print("===== Scene Plan =====")
+    print(f"Scenes: {len(scenes)}")
+    for scene in scenes:
+        print(
+            f"  Scene {scene['scene_number']}: "
+            f"{scene['estimated_duration_seconds']:.1f}s"
+        )
 
 
 if __name__ == "__main__":
