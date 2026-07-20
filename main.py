@@ -17,9 +17,11 @@ from shorts_analyzer.analysis.pattern import analyze_patterns
 from shorts_analyzer.analysis.posting import analyze_posting
 from shorts_analyzer.analysis.title import analyze_titles
 from shorts_analyzer.analysis.trend import analyze_trends
+from shorts_analyzer.ai.openai_provider import OpenAIProvider
 from shorts_analyzer.export import save_videos_csv
-from shorts_analyzer.generation.idea_generator import generate_ideas, save_ideas
+from shorts_analyzer.generation.idea_generator import Idea, generate_ideas, save_ideas
 from shorts_analyzer.generation.prompt_builder import build_script_prompt
+from shorts_analyzer.generation.script_generator import ScriptGenerator
 from shorts_analyzer.knowledge.exporter import export_knowledge
 from shorts_analyzer.knowledge.profile import generate_channel_profile
 from shorts_analyzer.statistics import analyze_videos
@@ -28,6 +30,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent
 OUTPUT_PATH = PROJECT_ROOT / "output" / "videos.csv"
 GENERATED_PATH = PROJECT_ROOT / "generated"
 SCRIPT_PROMPT_PATH = GENERATED_PATH / "script_prompt.txt"
+SCRIPT_PATH = GENERATED_PATH / "script.txt"
 IDEAS_PATH = GENERATED_PATH / "ideas.json"
 KNOWLEDGE_PATH = PROJECT_ROOT / "knowledge"
 CHANNEL_PROFILE_PATH = KNOWLEDGE_PATH / "channel_profile.json"
@@ -103,11 +106,20 @@ def main() -> None:
     )
     save_ideas(ideas, IDEAS_PATH)
 
+    selected_idea: Idea = ideas["ideas"][0]
+    script_generator = ScriptGenerator(OpenAIProvider())
+    script_generator.generate_script(
+        selected_idea,
+        SCRIPT_PROMPT_PATH,
+        SCRIPT_PATH,
+    )
+
     print(f"Fetched {len(videos)} videos")
     print(f"Saved to {OUTPUT_PATH}")
     print(f"Exported knowledge to {KNOWLEDGE_PATH}")
     print(f"Prompt saved to {SCRIPT_PROMPT_PATH}")
     print(f"Ideas saved to {IDEAS_PATH}")
+    print(f"Script saved to {SCRIPT_PATH}")
 
     print()
     print("===== Analysis =====")
@@ -254,12 +266,10 @@ def main() -> None:
             f"({row['theme']})"
         )
 
+    print()
+    print("===== Script Generation =====")
+    print(f"Selected Idea: {selected_idea['title']} ({selected_idea['theme']})")
+
 
 if __name__ == "__main__":
     main()
-
-from shorts_analyzer.ai.openai_provider import OpenAIProvider
-
-provider = OpenAIProvider()
-
-print(provider.generate("test"))
