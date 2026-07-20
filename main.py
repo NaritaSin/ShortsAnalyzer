@@ -9,6 +9,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from shorts_analyzer import YouTubeAPIError, YouTubeClient
+from shorts_analyzer.analysis.title import analyze_titles
 from shorts_analyzer.export import save_videos_csv
 from shorts_analyzer.statistics import analyze_videos
 
@@ -48,6 +49,7 @@ def main() -> None:
     save_videos_csv(videos, OUTPUT_PATH)
 
     analysis = analyze_videos(videos)
+    title_analysis = analyze_titles(videos)
 
     print(f"Fetched {len(videos)} videos")
     print(f"Saved to {OUTPUT_PATH}")
@@ -62,6 +64,18 @@ def main() -> None:
     print(f"Average Likes: {analysis['average_likes']:,.0f}")
     print(f"Average Comments: {analysis['average_comments']:,.0f}")
     print(f"Average Duration: {analysis['average_duration_seconds']:.1f} sec")
+
+    print()
+    print("===== Title Analysis =====")
+    print(f"Average Title Length: {title_analysis['average_title_length']:.1f}")
+    print(f"Longest Title Length: {title_analysis['longest_title_length']}")
+    print(f"Shortest Title Length: {title_analysis['shortest_title_length']}")
+    print(f"Titles with Numbers: {title_analysis['titles_with_numbers']}")
+    print(f"Titles with Question Mark: {title_analysis['titles_with_question_mark']}")
+    print(
+        f"Titles with Exclamation Mark: {title_analysis['titles_with_exclamation_mark']}"
+    )
+    print(f"Average Hashtag Count: {title_analysis['average_hashtag_count']:.2f}")
 
 
 if __name__ == "__main__":
