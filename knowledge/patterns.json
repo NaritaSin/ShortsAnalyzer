@@ -5,7 +5,7 @@
             "duration_group": "medium",
             "posting_hour_group": "morning",
             "video_count": 1,
-            "average_views": 1267360.0,
+            "average_views": 1267403.0,
             "average_likes": 28123.0
         },
         {
@@ -13,7 +13,7 @@
             "duration_group": "short",
             "posting_hour_group": "afternoon",
             "video_count": 3,
-            "average_views": 916447.0,
+            "average_views": 916506.6666666666,
             "average_likes": 19728.666666666668
         },
         {
@@ -21,8 +21,8 @@
             "duration_group": "long",
             "posting_hour_group": "afternoon",
             "video_count": 5,
-            "average_views": 875448.8,
-            "average_likes": 17631.0
+            "average_views": 875485.6,
+            "average_likes": 17632.0
         },
         {
             "title_length_group": "long",
@@ -37,16 +37,16 @@
             "duration_group": "medium",
             "posting_hour_group": "afternoon",
             "video_count": 12,
-            "average_views": 395010.6666666667,
-            "average_likes": 8073.333333333333
+            "average_views": 395033.5833333333,
+            "average_likes": 8073.583333333333
         },
         {
             "title_length_group": "long",
             "duration_group": "long",
             "posting_hour_group": "morning",
             "video_count": 3,
-            "average_views": 384610.3333333333,
-            "average_likes": 7337.666666666667
+            "average_views": 384658.0,
+            "average_likes": 7338.666666666667
         },
         {
             "title_length_group": "medium",
@@ -54,31 +54,31 @@
             "posting_hour_group": "afternoon",
             "video_count": 5,
             "average_views": 276175.8,
-            "average_likes": 5719.6
+            "average_likes": 5720.0
         },
         {
             "title_length_group": "medium",
             "duration_group": "medium",
             "posting_hour_group": "afternoon",
             "video_count": 21,
-            "average_views": 264191.85714285716,
-            "average_likes": 4727.523809523809
+            "average_views": 264203.04761904763,
+            "average_likes": 4727.619047619048
         },
         {
             "title_length_group": "medium",
             "duration_group": "long",
             "posting_hour_group": "afternoon",
             "video_count": 27,
-            "average_views": 247117.1851851852,
-            "average_likes": 4876.592592592592
+            "average_views": 247148.07407407407,
+            "average_likes": 4876.962962962963
         },
         {
             "title_length_group": "long",
             "duration_group": "long",
             "posting_hour_group": "afternoon",
             "video_count": 7,
-            "average_views": 220138.2857142857,
-            "average_likes": 4837.142857142857
+            "average_views": 220139.57142857142,
+            "average_likes": 4837.285714285715
         }
     ]
 }

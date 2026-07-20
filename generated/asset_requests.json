@@ -1,0 +1,9 @@
+{
+    "asset_requests": [
+        {
+            "scene_number": 1,
+            "search_query": "Show visuals that directly support the narration for this beat. Narration focus:",
+            "asset_type": "image"
+        }
+    ]
+}
