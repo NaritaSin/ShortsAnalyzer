@@ -12,6 +12,7 @@ from shorts_analyzer import YouTubeAPIError, YouTubeClient
 from shorts_analyzer.analysis.duration import analyze_duration
 from shorts_analyzer.analysis.hashtag import analyze_hashtags
 from shorts_analyzer.analysis.keyword import analyze_keywords
+from shorts_analyzer.analysis.pattern import analyze_patterns
 from shorts_analyzer.analysis.posting import analyze_posting
 from shorts_analyzer.analysis.title import analyze_titles
 from shorts_analyzer.export import save_videos_csv
@@ -58,6 +59,7 @@ def main() -> None:
     duration_analysis = analyze_duration(videos)
     hashtag_analysis = analyze_hashtags(videos)
     keyword_analysis = analyze_keywords(videos)
+    pattern_analysis = analyze_patterns(videos)
 
     print(f"Fetched {len(videos)} videos")
     print(f"Saved to {OUTPUT_PATH}")
@@ -147,6 +149,19 @@ def main() -> None:
             f"avg views {row['average_views']:,.0f}, "
             f"avg likes {row['average_likes']:,.0f}, "
             f"avg comments {row['average_comments']:,.0f}"
+        )
+
+    print()
+    print("===== Pattern Analysis =====")
+    print("Top 10 Patterns:")
+    for row in pattern_analysis["patterns"]:
+        print(
+            f"  title={row['title_length_group']}, "
+            f"duration={row['duration_group']}, "
+            f"hour={row['posting_hour_group']}: "
+            f"{row['video_count']} videos, "
+            f"avg views {row['average_views']:,.0f}, "
+            f"avg likes {row['average_likes']:,.0f}"
         )
 
 
