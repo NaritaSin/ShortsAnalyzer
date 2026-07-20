@@ -1,0 +1,13 @@
+{
+    "score": 5,
+    "issues": [
+        "Missing or unclear Hook section.",
+        "Missing or unclear Introduction section.",
+        "Missing or unclear Main Story section.",
+        "Missing or unclear Ending section.",
+        "Missing or unclear CTA section.",
+        "Estimated duration is too short (3 sec).",
+        "Script is too short and incomplete."
+    ],
+    "passed": false
+}

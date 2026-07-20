@@ -22,6 +22,7 @@ from shorts_analyzer.export import save_videos_csv
 from shorts_analyzer.generation.idea_generator import Idea, generate_ideas, save_ideas
 from shorts_analyzer.generation.prompt_builder import build_script_prompt
 from shorts_analyzer.generation.script_generator import ScriptGenerator
+from shorts_analyzer.generation.script_scorer import ScriptScorer, save_script_score
 from shorts_analyzer.knowledge.exporter import export_knowledge
 from shorts_analyzer.knowledge.profile import generate_channel_profile
 from shorts_analyzer.statistics import analyze_videos
@@ -31,6 +32,7 @@ OUTPUT_PATH = PROJECT_ROOT / "output" / "videos.csv"
 GENERATED_PATH = PROJECT_ROOT / "generated"
 SCRIPT_PROMPT_PATH = GENERATED_PATH / "script_prompt.txt"
 SCRIPT_PATH = GENERATED_PATH / "script.txt"
+SCRIPT_SCORE_PATH = GENERATED_PATH / "script_score.json"
 IDEAS_PATH = GENERATED_PATH / "ideas.json"
 KNOWLEDGE_PATH = PROJECT_ROOT / "knowledge"
 CHANNEL_PROFILE_PATH = KNOWLEDGE_PATH / "channel_profile.json"
@@ -108,11 +110,13 @@ def main() -> None:
 
     selected_idea: Idea = ideas["ideas"][0]
     script_generator = ScriptGenerator(OpenAIProvider())
-    script_generator.generate_script(
+    script_text = script_generator.generate_script(
         selected_idea,
         SCRIPT_PROMPT_PATH,
         SCRIPT_PATH,
     )
+    script_score = ScriptScorer().score(script_text)
+    save_script_score(script_score, SCRIPT_SCORE_PATH)
 
     print(f"Fetched {len(videos)} videos")
     print(f"Saved to {OUTPUT_PATH}")
@@ -120,6 +124,7 @@ def main() -> None:
     print(f"Prompt saved to {SCRIPT_PROMPT_PATH}")
     print(f"Ideas saved to {IDEAS_PATH}")
     print(f"Script saved to {SCRIPT_PATH}")
+    print(f"Script score saved to {SCRIPT_SCORE_PATH}")
 
     print()
     print("===== Analysis =====")
@@ -269,6 +274,15 @@ def main() -> None:
     print()
     print("===== Script Generation =====")
     print(f"Selected Idea: {selected_idea['title']} ({selected_idea['theme']})")
+
+    print()
+    print("===== Script Score =====")
+    print(f"Score: {script_score['score']}/100")
+    print(f"Passed: {script_score['passed']}")
+    if script_score["issues"]:
+        print("Issues:")
+        for issue in script_score["issues"]:
+            print(f"  - {issue}")
 
 
 if __name__ == "__main__":
