@@ -9,6 +9,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from shorts_analyzer import YouTubeAPIError, YouTubeClient
+from shorts_analyzer.analysis.posting import analyze_posting
 from shorts_analyzer.analysis.title import analyze_titles
 from shorts_analyzer.export import save_videos_csv
 from shorts_analyzer.statistics import analyze_videos
@@ -50,6 +51,7 @@ def main() -> None:
 
     analysis = analyze_videos(videos)
     title_analysis = analyze_titles(videos)
+    posting_analysis = analyze_posting(videos)
 
     print(f"Fetched {len(videos)} videos")
     print(f"Saved to {OUTPUT_PATH}")
@@ -76,6 +78,26 @@ def main() -> None:
         f"Titles with Exclamation Mark: {title_analysis['titles_with_exclamation_mark']}"
     )
     print(f"Average Hashtag Count: {title_analysis['average_hashtag_count']:.2f}")
+
+    print()
+    print("===== Posting Analysis (UTC) =====")
+    print("By Weekday:")
+    for row in posting_analysis["by_weekday"]:
+        print(
+            f"  {row['weekday']}: "
+            f"{row['video_count']} videos, "
+            f"avg views {row['average_views']:,.0f}, "
+            f"avg likes {row['average_likes']:,.0f}"
+        )
+
+    print("By Hour:")
+    for row in posting_analysis["by_hour"]:
+        print(
+            f"  {row['hour']:02d}:00: "
+            f"{row['video_count']} videos, "
+            f"avg views {row['average_views']:,.0f}, "
+            f"avg likes {row['average_likes']:,.0f}"
+        )
 
 
 if __name__ == "__main__":
