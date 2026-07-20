@@ -26,8 +26,9 @@ from shorts_analyzer.statistics import analyze_videos
 
 PROJECT_ROOT = Path(__file__).resolve().parent
 OUTPUT_PATH = PROJECT_ROOT / "output" / "videos.csv"
-SCRIPT_PROMPT_PATH = PROJECT_ROOT / "output" / "script_prompt.txt"
-IDEAS_PATH = PROJECT_ROOT / "output" / "ideas.json"
+GENERATED_PATH = PROJECT_ROOT / "generated"
+SCRIPT_PROMPT_PATH = GENERATED_PATH / "script_prompt.txt"
+IDEAS_PATH = GENERATED_PATH / "ideas.json"
 KNOWLEDGE_PATH = PROJECT_ROOT / "knowledge"
 CHANNEL_PROFILE_PATH = KNOWLEDGE_PATH / "channel_profile.json"
 TEST_TOPIC = "エミュー戦争"
