@@ -4,9 +4,9 @@
             "scene_number": 1,
             "search_query": "short video scene",
             "asset_type": "image",
-            "source": "",
-            "local_path": "",
-            "status": "pending"
+            "source": "https://images.pexels.com/photos/8089657/pexels-photo-8089657.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+            "local_path": "assets/images/scene_1.jpeg",
+            "status": "downloaded"
         }
     ]
 }

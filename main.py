@@ -131,9 +131,11 @@ def main() -> None:
     pexels_api_key = os.environ.get("PEXELS_API_KEY", "")
     if pexels_api_key:
         try:
-            assets_manifest = PexelsDownloader(pexels_api_key).download(
-                ASSETS_MANIFEST_PATH,
-                ASSETS_IMAGES_PATH,
+            downloader = PexelsDownloader(pexels_api_key)
+            images_dir = PROJECT_ROOT / "assets" / "images"
+            assets_manifest = downloader.download(
+                manifest_path=ASSETS_MANIFEST_PATH,
+                images_dir=images_dir,
                 project_root=PROJECT_ROOT,
             )
         except PexelsAPIError as exc:
