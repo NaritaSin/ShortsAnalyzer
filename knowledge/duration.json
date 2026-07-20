@@ -6,20 +6,20 @@
         {
             "group": "30-45",
             "video_count": 9,
-            "average_views": 536807.7777777778,
-            "average_likes": 11962.333333333334
+            "average_views": 536855.8888888889,
+            "average_likes": 11962.666666666666
         },
         {
             "group": "45-60",
             "video_count": 36,
-            "average_views": 334583.3333333333,
-            "average_likes": 6482.194444444444
+            "average_views": 334603.0,
+            "average_likes": 6482.388888888889
         },
         {
             "group": "60+",
             "video_count": 55,
-            "average_views": 294333.14545454545,
-            "average_likes": 5890.363636363636
+            "average_views": 294356.12727272726,
+            "average_likes": 5890.945454545455
         }
     ]
 }

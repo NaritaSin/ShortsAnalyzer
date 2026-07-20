@@ -1,0 +1,30 @@
+{
+    "average_duration": 57.87,
+    "best_posting_period": "Sunday afternoon (UTC)",
+    "best_title_length": "short",
+    "average_hashtags": 2.0,
+    "top_keywords": [
+        "ゴルフボール",
+        "見つ",
+        "大統領",
+        "襲ったウサギ",
+        "菌類",
+        "大文字",
+        "リットル",
+        "使わせろ",
+        "生きた状態",
+        "4年間展示されていたカタツムリ"
+    ],
+    "top_hashtags": [
+        "雑学",
+        "まとめる犬"
+    ],
+    "recommended_style": {
+        "duration": "Keep videos around 58 seconds to match the channel average.",
+        "posting": "Post on Sunday afternoon (UTC) when engagement tends to be strongest.",
+        "title": "Prefer short titles based on top-performing patterns.",
+        "hashtags": "Use about 2.0 hashtags per title, including #雑学, #まとめる犬.",
+        "keywords": "Lean on recurring themes such as ゴルフボール, 見つ, 大統領, 襲ったウサギ, 菌類.",
+        "summary": "This channel performs best with short titles, 58-second videos, and posting on Sunday afternoon (UTC)."
+    }
+}

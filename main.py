@@ -18,6 +18,7 @@ from shorts_analyzer.analysis.title import analyze_titles
 from shorts_analyzer.analysis.trend import analyze_trends
 from shorts_analyzer.export import save_videos_csv
 from shorts_analyzer.knowledge.exporter import export_knowledge
+from shorts_analyzer.knowledge.profile import generate_channel_profile
 from shorts_analyzer.statistics import analyze_videos
 
 PROJECT_ROOT = Path(__file__).resolve().parent
@@ -75,6 +76,7 @@ def main() -> None:
         "patterns": pattern_analysis,
         "trend": trend_analysis,
     }
+    knowledge["channel_profile"] = generate_channel_profile(knowledge)
     export_knowledge(knowledge, KNOWLEDGE_PATH)
 
     print(f"Fetched {len(videos)} videos")

@@ -15,6 +15,7 @@ _EXPORT_FILES = {
     "keywords": "keywords.json",
     "patterns": "patterns.json",
     "trend": "trend.json",
+    "channel_profile": "channel_profile.json",
 }
 
 
