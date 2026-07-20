@@ -9,6 +9,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from shorts_analyzer import YouTubeAPIError, YouTubeClient
+from shorts_analyzer.analysis.duration import analyze_duration
 from shorts_analyzer.analysis.posting import analyze_posting
 from shorts_analyzer.analysis.title import analyze_titles
 from shorts_analyzer.export import save_videos_csv
@@ -52,6 +53,7 @@ def main() -> None:
     analysis = analyze_videos(videos)
     title_analysis = analyze_titles(videos)
     posting_analysis = analyze_posting(videos)
+    duration_analysis = analyze_duration(videos)
 
     print(f"Fetched {len(videos)} videos")
     print(f"Saved to {OUTPUT_PATH}")
@@ -94,6 +96,26 @@ def main() -> None:
     for row in posting_analysis["by_hour"]:
         print(
             f"  {row['hour']:02d}:00: "
+            f"{row['video_count']} videos, "
+            f"avg views {row['average_views']:,.0f}, "
+            f"avg likes {row['average_likes']:,.0f}"
+        )
+
+    print()
+    print("===== Duration Analysis =====")
+    print(
+        f"Average Duration: {duration_analysis['average_duration_seconds']:.1f} sec"
+    )
+    print(
+        f"Longest Duration: {duration_analysis['longest_duration_seconds']} sec"
+    )
+    print(
+        f"Shortest Duration: {duration_analysis['shortest_duration_seconds']} sec"
+    )
+    print("Duration Groups:")
+    for row in duration_analysis["duration_groups"]:
+        print(
+            f"  {row['group']} sec: "
             f"{row['video_count']} videos, "
             f"avg views {row['average_views']:,.0f}, "
             f"avg likes {row['average_likes']:,.0f}"
