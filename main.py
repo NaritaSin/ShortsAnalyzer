@@ -257,3 +257,9 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+from shorts_analyzer.ai.openai_provider import OpenAIProvider
+
+provider = OpenAIProvider()
+
+print(provider.generate("test"))
