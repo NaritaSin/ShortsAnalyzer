@@ -1,20 +1,20 @@
 {
     "older": {
-        "average_views": 268859.8,
-        "average_likes": 4862.54,
-        "average_comments": 185.88,
+        "average_views": 268918.24,
+        "average_likes": 4864.36,
+        "average_comments": 185.96,
         "average_duration": 59.12
     },
     "newer": {
-        "average_views": 392480.16,
-        "average_likes": 8438.1,
-        "average_comments": 206.4,
+        "average_views": 392771.64,
+        "average_likes": 8445.1,
+        "average_comments": 206.54,
         "average_duration": 56.62
     },
     "differences": {
-        "views_change_percent": 45.979488194218696,
-        "likes_change_percent": 73.53276271249185,
-        "comments_change_percent": 11.039380245319567,
+        "views_change_percent": 46.05615446538696,
+        "likes_change_percent": 73.61173926271906,
+        "comments_change_percent": 11.066896106689601,
         "duration_change_seconds": -2.5
     }
 }

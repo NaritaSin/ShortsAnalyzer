@@ -18,6 +18,7 @@ from shorts_analyzer.analysis.posting import analyze_posting
 from shorts_analyzer.analysis.title import analyze_titles
 from shorts_analyzer.analysis.trend import analyze_trends
 from shorts_analyzer.export import save_videos_csv
+from shorts_analyzer.generation.idea_generator import generate_ideas, save_ideas
 from shorts_analyzer.generation.prompt_builder import build_script_prompt
 from shorts_analyzer.knowledge.exporter import export_knowledge
 from shorts_analyzer.knowledge.profile import generate_channel_profile
@@ -26,6 +27,7 @@ from shorts_analyzer.statistics import analyze_videos
 PROJECT_ROOT = Path(__file__).resolve().parent
 OUTPUT_PATH = PROJECT_ROOT / "output" / "videos.csv"
 SCRIPT_PROMPT_PATH = PROJECT_ROOT / "output" / "script_prompt.txt"
+IDEAS_PATH = PROJECT_ROOT / "output" / "ideas.json"
 KNOWLEDGE_PATH = PROJECT_ROOT / "knowledge"
 CHANNEL_PROFILE_PATH = KNOWLEDGE_PATH / "channel_profile.json"
 TEST_TOPIC = "エミュー戦争"
@@ -91,10 +93,20 @@ def main() -> None:
     SCRIPT_PROMPT_PATH.parent.mkdir(parents=True, exist_ok=True)
     SCRIPT_PROMPT_PATH.write_text(script_prompt, encoding="utf-8")
 
+    ideas = generate_ideas(
+        channel_profile,
+        keyword_analysis,
+        hashtag_analysis,
+        trend_analysis,
+        script_prompt,
+    )
+    save_ideas(ideas, IDEAS_PATH)
+
     print(f"Fetched {len(videos)} videos")
     print(f"Saved to {OUTPUT_PATH}")
     print(f"Exported knowledge to {KNOWLEDGE_PATH}")
     print(f"Prompt saved to {SCRIPT_PROMPT_PATH}")
+    print(f"Ideas saved to {IDEAS_PATH}")
 
     print()
     print("===== Analysis =====")
@@ -231,6 +243,15 @@ def main() -> None:
         "  Duration Change: "
         f"{trend_analysis['differences']['duration_change_seconds']:+.1f} sec"
     )
+
+    print()
+    print("===== Idea Generation =====")
+    print("Top 10 Ideas:")
+    for row in ideas["ideas"][:10]:
+        print(
+            f"  [{row['estimated_score']}] {row['title']} "
+            f"({row['theme']})"
+        )
 
 
 if __name__ == "__main__":
