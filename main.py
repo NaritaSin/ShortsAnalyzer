@@ -18,7 +18,7 @@ from shorts_analyzer.analysis.posting import analyze_posting
 from shorts_analyzer.analysis.title import analyze_titles
 from shorts_analyzer.analysis.trend import analyze_trends
 from shorts_analyzer.ai.openai_provider import OpenAIProvider
-from shorts_analyzer.assets.collector import AssetCollector, save_asset_requests
+from shorts_analyzer.assets.collector import AssetCollector, save_assets_manifest
 from shorts_analyzer.export import save_videos_csv
 from shorts_analyzer.generation.idea_generator import Idea, generate_ideas, save_ideas
 from shorts_analyzer.generation.prompt_builder import build_script_prompt
@@ -36,7 +36,7 @@ SCRIPT_PROMPT_PATH = GENERATED_PATH / "script_prompt.txt"
 SCRIPT_PATH = GENERATED_PATH / "script.txt"
 SCRIPT_SCORE_PATH = GENERATED_PATH / "script_score.json"
 SCENES_PATH = GENERATED_PATH / "scenes.json"
-ASSET_REQUESTS_PATH = GENERATED_PATH / "asset_requests.json"
+ASSETS_MANIFEST_PATH = GENERATED_PATH / "assets_manifest.json"
 IDEAS_PATH = GENERATED_PATH / "ideas.json"
 KNOWLEDGE_PATH = PROJECT_ROOT / "knowledge"
 CHANNEL_PROFILE_PATH = KNOWLEDGE_PATH / "channel_profile.json"
@@ -123,8 +123,8 @@ def main() -> None:
     save_script_score(script_score, SCRIPT_SCORE_PATH)
     scenes = ScenePlanner().plan_scenes(script_text)
     save_scenes(scenes, SCENES_PATH)
-    asset_requests = AssetCollector().collect(SCENES_PATH)
-    save_asset_requests(asset_requests, ASSET_REQUESTS_PATH)
+    assets_manifest = AssetCollector().collect(SCENES_PATH)
+    save_assets_manifest(assets_manifest, ASSETS_MANIFEST_PATH)
 
     print(f"Fetched {len(videos)} videos")
     print(f"Saved to {OUTPUT_PATH}")
@@ -134,7 +134,7 @@ def main() -> None:
     print(f"Script saved to {SCRIPT_PATH}")
     print(f"Script score saved to {SCRIPT_SCORE_PATH}")
     print(f"Scenes saved to {SCENES_PATH}")
-    print(f"Asset requests saved to {ASSET_REQUESTS_PATH}")
+    print(f"Asset manifest saved to {ASSETS_MANIFEST_PATH}")
 
     print()
     print("===== Analysis =====")
@@ -304,11 +304,12 @@ def main() -> None:
         )
 
     print()
-    print("===== Asset Requests =====")
-    for request in asset_requests:
+    print("===== Asset Manifest =====")
+    for entry in assets_manifest:
         print(
-            f"  Scene {request['scene_number']}: "
-            f"{request['asset_type']} - {request['search_query']}"
+            f"  Scene {entry['scene_number']}: "
+            f"{entry['asset_type']} ({entry['status']}) - "
+            f"{entry['search_query']}"
         )
 
 

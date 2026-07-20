@@ -1,10 +1,10 @@
 {
     "total_videos": 100,
-    "average_views": 331070.02,
-    "median_views": 215356.5,
+    "average_views": 331077.65,
+    "median_views": 215359.0,
     "max_views": 1946179,
     "min_views": 39741,
-    "average_likes": 6659.31,
-    "average_comments": 196.36,
+    "average_likes": 6659.56,
+    "average_comments": 196.37,
     "average_duration_seconds": 57.87
 }
