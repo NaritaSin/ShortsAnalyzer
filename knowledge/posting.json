@@ -2,88 +2,88 @@
     "by_weekday": [
         {
             "weekday": "Monday",
-            "video_count": 14,
-            "average_views": 377973.71428571426,
-            "average_likes": 7527.428571428572
+            "video_count": 15,
+            "average_views": 353558.06666666665,
+            "average_likes": 7051.666666666667
         },
         {
             "weekday": "Tuesday",
             "video_count": 14,
-            "average_views": 271352.5,
-            "average_likes": 6378.642857142857
+            "average_views": 271393.4285714286,
+            "average_likes": 6379.428571428572
         },
         {
             "weekday": "Wednesday",
             "video_count": 14,
-            "average_views": 170864.7857142857,
-            "average_likes": 3390.6428571428573
+            "average_views": 170901.2142857143,
+            "average_likes": 3391.5714285714284
         },
         {
             "weekday": "Thursday",
             "video_count": 14,
-            "average_views": 292253.14285714284,
-            "average_likes": 6031.0
+            "average_views": 292331.71428571426,
+            "average_likes": 6033.785714285715
         },
         {
             "weekday": "Friday",
             "video_count": 14,
-            "average_views": 398057.64285714284,
-            "average_likes": 7701.0
+            "average_views": 398168.0,
+            "average_likes": 7703.357142857143
         },
         {
             "weekday": "Saturday",
-            "video_count": 15,
-            "average_views": 385864.13333333336,
-            "average_likes": 6790.533333333334
+            "video_count": 14,
+            "average_views": 403914.0,
+            "average_likes": 7117.142857142857
         },
         {
             "weekday": "Sunday",
             "video_count": 15,
-            "average_views": 411518.5333333333,
-            "average_likes": 8646.4
+            "average_views": 411786.8,
+            "average_likes": 8652.133333333333
         }
     ],
     "by_hour": [
         {
             "hour": 9,
             "video_count": 2,
-            "average_views": 741015.5,
-            "average_likes": 15319.5
+            "average_views": 741141.0,
+            "average_likes": 15321.0
         },
         {
             "hour": 10,
             "video_count": 8,
-            "average_views": 254540.625,
-            "average_likes": 5484.25
+            "average_views": 254765.875,
+            "average_likes": 5489.625
         },
         {
             "hour": 11,
             "video_count": 9,
-            "average_views": 207906.22222222222,
-            "average_likes": 3753.0
+            "average_views": 207971.88888888888,
+            "average_likes": 3754.222222222222
         },
         {
             "hour": 12,
             "video_count": 26,
-            "average_views": 258479.11538461538,
-            "average_likes": 5455.076923076923
+            "average_views": 258512.38461538462,
+            "average_likes": 5455.846153846154
         },
         {
             "hour": 13,
-            "video_count": 30,
-            "average_views": 431250.86666666664,
-            "average_likes": 8668.833333333334
+            "video_count": 31,
+            "average_views": 417874.67741935485,
+            "average_likes": 8405.870967741936
         },
         {
             "hour": 14,
-            "video_count": 22,
-            "average_views": 342088.9090909091,
-            "average_likes": 6597.363636363636
+            "video_count": 21,
+            "average_views": 352005.3333333333,
+            "average_likes": 6804.9047619047615
         },
         {
             "hour": 15,
             "video_count": 3,
-            "average_views": 178104.66666666666,
+            "average_views": 178128.33333333334,
             "average_likes": 3542.3333333333335
         }
     ]

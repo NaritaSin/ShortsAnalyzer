@@ -3,27 +3,26 @@
 from __future__ import annotations
 
 import json
-import re
 from pathlib import Path
 from typing import Any, TypedDict
 
 _VIDEO_KEYWORDS = (
-    "b-roll",
+    "footage",
     "motion",
-    "fast-cut",
-    "animation",
-    "subscribe",
-    "like",
+    "b-roll",
 )
 
 _IMAGE_KEYWORDS = (
     "graphic",
-    "title card",
     "photo",
-    "diagram",
-    "summary visual",
-    "overlay",
-    "text",
+    "image",
+    "card",
+    "button",
+    "visual",
+    "scene",
+    "temple",
+    "bird",
+    "soldiers",
 )
 
 
@@ -67,71 +66,21 @@ def _load_scenes(scenes_path: Path) -> list[dict[str, Any]]:
 
 
 def _build_manifest_entry(scene: dict[str, Any]) -> AssetManifestEntry:
-    visual_description = str(scene.get("visual_description", ""))
-    narration = str(scene.get("narration", ""))
-    search_query = _infer_search_query(visual_description, narration)
-    asset_type = _infer_asset_type(visual_description)
+    visual_description = str(scene.get("visual_description", "")).strip()
+    search_query = visual_description or "trivia facts image"
 
     return {
         "scene_number": int(scene["scene_number"]),
         "search_query": search_query,
-        "asset_type": asset_type,
+        "asset_type": _infer_asset_type(search_query),
         "source": "",
         "local_path": "",
         "status": "pending",
     }
 
 
-def _infer_search_query(visual_description: str, narration: str) -> str:
-    focus_match = re.search(
-        r"Narration focus:\s*(.+?)(?:\.\.\.|$)",
-        visual_description,
-        re.IGNORECASE,
-    )
-    if focus_match:
-        focus = _clean_query(focus_match.group(1))
-        if focus:
-            return focus
-
-    visual_terms = _extract_visual_terms(visual_description)
-    narration_terms = _clean_query(narration)
-    if visual_terms and narration_terms:
-        return _clean_query(f"{narration_terms} {visual_terms}")
-
-    if narration_terms:
-        return narration_terms
-
-    cleaned_visual = _clean_query(visual_description)
-    return cleaned_visual or "youtube shorts trivia visual"
-
-
-def _extract_visual_terms(visual_description: str) -> str:
-    description = visual_description.split("Narration focus:", 1)[0]
-    keywords: list[str] = []
-
-    for term in (
-        "hook graphic",
-        "title card",
-        "b-roll",
-        "diagram",
-        "photos",
-        "summary visual",
-        "motion graphics",
-        "subscribe",
-        "like",
-        "comment prompts",
-    ):
-        if term in description.lower():
-            keywords.append(term)
-
-    if keywords:
-        return " ".join(keywords)
-
-    return _clean_query(description)
-
-
-def _infer_asset_type(visual_description: str) -> str:
-    lowered = visual_description.lower()
+def _infer_asset_type(search_query: str) -> str:
+    lowered = search_query.lower()
     video_score = sum(keyword in lowered for keyword in _VIDEO_KEYWORDS)
     image_score = sum(keyword in lowered for keyword in _IMAGE_KEYWORDS)
 
@@ -139,11 +88,4 @@ def _infer_asset_type(visual_description: str) -> str:
         return "video"
     if image_score > video_score:
         return "image"
-    return "video" if "b-roll" in lowered else "image"
-
-
-def _clean_query(text: str) -> str:
-    cleaned = re.sub(r"\[[^\]]*\]?", " ", text)
-    cleaned = re.sub(r"[#*_]+", " ", cleaned)
-    cleaned = re.sub(r"\s+", " ", cleaned).strip(" ,.")
-    return cleaned[:120]
+    return "image"

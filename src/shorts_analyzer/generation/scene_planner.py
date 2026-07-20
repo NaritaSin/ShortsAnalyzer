@@ -41,29 +41,63 @@ _SECTION_PATTERNS: dict[str, tuple[str, ...]] = {
     "CTA": (r"^##\s*cta\b", r"^cta\s*:?", r"^call to action"),
 }
 
-_VISUAL_DESCRIPTIONS = {
-    "Hook": (
-        "Open with a bold hook graphic and fast-cut visuals that grab attention "
-        "in the first 3 seconds."
-    ),
-    "Introduction": (
-        "Show a clear title card or topic introduction that sets up what the "
-        "viewer will learn."
-    ),
-    "Main Story": (
-        "Use supporting b-roll, diagrams, or photos while presenting the core "
-        "trivia narration."
-    ),
-    "Ending": (
-        "Display a summary visual or punchline graphic that reinforces the "
-        "key takeaway."
-    ),
-    "CTA": (
-        "End with subscribe, like, and comment prompts using simple motion "
-        "graphics or on-screen text."
-    ),
-    "Scene": "Show visuals that directly support the narration for this beat.",
+_SECTION_DEFAULT_NOUNS: dict[str, tuple[str, ...]] = {
+    "Hook": ("attention", "hook", "graphic"),
+    "Introduction": ("topic", "introduction", "card"),
+    "Main Story": ("trivia", "story", "scene"),
+    "Ending": ("summary", "fact", "visual"),
+    "CTA": ("subscribe", "like", "button"),
+    "Scene": ("short", "video", "scene"),
 }
+
+_JP_NOUN_MAP: tuple[tuple[str, str], ...] = (
+    ("オーストラリア", "australian"),
+    ("エミュー", "emu"),
+    ("エミュ", "emu"),
+    ("大統領", "president"),
+    ("ウサギ", "rabbit"),
+    ("火山", "volcano"),
+    ("噴火", "eruption"),
+    ("ローマ", "roman"),
+    ("寺院", "temple"),
+    ("兵士", "soldiers"),
+    ("戦争", "war"),
+    ("カタツムリ", "snail"),
+    ("ネコ", "cat"),
+    ("犬", "dog"),
+    ("ペンギン", "penguin"),
+    ("ホッキョクグマ", "polar bear"),
+    ("菌類", "mushroom"),
+    ("ゴルフボール", "golf ball"),
+    ("カエル", "frog"),
+    ("ハムスター", "hamster"),
+    ("貝", "shell"),
+    ("昆虫", "insect"),
+    ("鳥", "bird"),
+    ("魚", "fish"),
+    ("歴史", "history"),
+    ("科学", "science"),
+    ("雑学", "trivia"),
+)
+
+_ENGLISH_STOPWORDS = frozenset(
+    {
+        "openai",
+        "placeholder",
+        "youtube",
+        "shorts",
+        "script",
+        "template",
+        "response",
+        "for",
+        "the",
+        "and",
+        "with",
+        "from",
+        "this",
+        "that",
+    }
+)
 
 
 class Scene(TypedDict):
@@ -123,11 +157,55 @@ def _estimate_duration_seconds(narration: str) -> float:
 
 
 def _visual_description(section_name: str, narration: str) -> str:
-    base = _VISUAL_DESCRIPTIONS.get(section_name, _VISUAL_DESCRIPTIONS["Scene"])
-    preview = narration.replace("\n", " ").strip()
-    if len(preview) > 40:
-        preview = f"{preview[:40]}..."
-    return f"{base} Narration focus: {preview}"
+    nouns = _extract_nouns(narration)
+    defaults = list(
+        _SECTION_DEFAULT_NOUNS.get(section_name, _SECTION_DEFAULT_NOUNS["Scene"])
+    )
+
+    if len(nouns) >= 2:
+        return _format_noun_phrase(nouns)
+
+    combined = _dedupe_preserve_order(nouns + defaults)
+    return _format_noun_phrase(combined)
+
+
+def _extract_nouns(narration: str) -> list[str]:
+    cleaned = re.sub(r"\[[^\]]*\]?", " ", narration)
+    nouns: list[str] = []
+
+    for word in re.findall(r"[a-zA-Z]+", cleaned):
+        lowered = word.lower()
+        if len(lowered) >= 3 and lowered not in _ENGLISH_STOPWORDS:
+            nouns.append(lowered)
+
+    for japanese, english in _JP_NOUN_MAP:
+        if japanese in cleaned:
+            nouns.extend(english.split())
+
+    return _dedupe_preserve_order(nouns)
+
+
+def _format_noun_phrase(words: list[str]) -> str:
+    unique_words = _dedupe_preserve_order(words)
+    if not unique_words:
+        return "trivia facts image"
+
+    phrase_words = unique_words[:6]
+    if len(phrase_words) < 2:
+        phrase_words.append("image")
+
+    return " ".join(phrase_words[:6])
+
+
+def _dedupe_preserve_order(words: list[str]) -> list[str]:
+    seen: set[str] = set()
+    unique_words: list[str] = []
+    for word in words:
+        if word in seen:
+            continue
+        seen.add(word)
+        unique_words.append(word)
+    return unique_words
 
 
 def _split_script(script: str) -> list[tuple[str, str]]:

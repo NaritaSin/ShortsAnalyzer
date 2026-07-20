@@ -19,6 +19,7 @@ from shorts_analyzer.analysis.title import analyze_titles
 from shorts_analyzer.analysis.trend import analyze_trends
 from shorts_analyzer.ai.openai_provider import OpenAIProvider
 from shorts_analyzer.assets.collector import AssetCollector, save_assets_manifest
+from shorts_analyzer.assets.pexels_downloader import PexelsAPIError, PexelsDownloader
 from shorts_analyzer.export import save_videos_csv
 from shorts_analyzer.generation.idea_generator import Idea, generate_ideas, save_ideas
 from shorts_analyzer.generation.prompt_builder import build_script_prompt
@@ -37,6 +38,7 @@ SCRIPT_PATH = GENERATED_PATH / "script.txt"
 SCRIPT_SCORE_PATH = GENERATED_PATH / "script_score.json"
 SCENES_PATH = GENERATED_PATH / "scenes.json"
 ASSETS_MANIFEST_PATH = GENERATED_PATH / "assets_manifest.json"
+ASSETS_IMAGES_PATH = PROJECT_ROOT / "assets" / "images"
 IDEAS_PATH = GENERATED_PATH / "ideas.json"
 KNOWLEDGE_PATH = PROJECT_ROOT / "knowledge"
 CHANNEL_PROFILE_PATH = KNOWLEDGE_PATH / "channel_profile.json"
@@ -125,6 +127,20 @@ def main() -> None:
     save_scenes(scenes, SCENES_PATH)
     assets_manifest = AssetCollector().collect(SCENES_PATH)
     save_assets_manifest(assets_manifest, ASSETS_MANIFEST_PATH)
+
+    pexels_api_key = os.environ.get("PEXELS_API_KEY", "")
+    if pexels_api_key:
+        try:
+            assets_manifest = PexelsDownloader(pexels_api_key).download(
+                ASSETS_MANIFEST_PATH,
+                ASSETS_IMAGES_PATH,
+                project_root=PROJECT_ROOT,
+            )
+        except PexelsAPIError as exc:
+            print(f"Error: {exc}", file=sys.stderr)
+            sys.exit(1)
+    else:
+        print("Set PEXELS_API_KEY in .env to download assets", file=sys.stderr)
 
     print(f"Fetched {len(videos)} videos")
     print(f"Saved to {OUTPUT_PATH}")
