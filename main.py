@@ -17,10 +17,12 @@ from shorts_analyzer.analysis.posting import analyze_posting
 from shorts_analyzer.analysis.title import analyze_titles
 from shorts_analyzer.analysis.trend import analyze_trends
 from shorts_analyzer.export import save_videos_csv
+from shorts_analyzer.knowledge.exporter import export_knowledge
 from shorts_analyzer.statistics import analyze_videos
 
 PROJECT_ROOT = Path(__file__).resolve().parent
 OUTPUT_PATH = PROJECT_ROOT / "output" / "videos.csv"
+KNOWLEDGE_PATH = PROJECT_ROOT / "knowledge"
 CHANNEL_HANDLE = "@雑学をまとめる犬"
 MAX_RESULTS = 100
 
@@ -63,8 +65,21 @@ def main() -> None:
     pattern_analysis = analyze_patterns(videos)
     trend_analysis = analyze_trends(videos)
 
+    knowledge = {
+        "statistics": analysis,
+        "title": title_analysis,
+        "posting": posting_analysis,
+        "duration": duration_analysis,
+        "hashtags": hashtag_analysis,
+        "keywords": keyword_analysis,
+        "patterns": pattern_analysis,
+        "trend": trend_analysis,
+    }
+    export_knowledge(knowledge, KNOWLEDGE_PATH)
+
     print(f"Fetched {len(videos)} videos")
     print(f"Saved to {OUTPUT_PATH}")
+    print(f"Exported knowledge to {KNOWLEDGE_PATH}")
 
     print()
     print("===== Analysis =====")

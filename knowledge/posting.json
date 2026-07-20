@@ -1,0 +1,90 @@
+{
+    "by_weekday": [
+        {
+            "weekday": "Monday",
+            "video_count": 14,
+            "average_views": 377609.35714285716,
+            "average_likes": 7521.357142857143
+        },
+        {
+            "weekday": "Tuesday",
+            "video_count": 14,
+            "average_views": 271101.21428571426,
+            "average_likes": 6374.071428571428
+        },
+        {
+            "weekday": "Wednesday",
+            "video_count": 14,
+            "average_views": 170729.5,
+            "average_likes": 3387.9285714285716
+        },
+        {
+            "weekday": "Thursday",
+            "video_count": 14,
+            "average_views": 291903.5714285714,
+            "average_likes": 6023.5
+        },
+        {
+            "weekday": "Friday",
+            "video_count": 14,
+            "average_views": 397637.35714285716,
+            "average_likes": 7692.714285714285
+        },
+        {
+            "weekday": "Saturday",
+            "video_count": 15,
+            "average_views": 385422.4,
+            "average_likes": 6775.666666666667
+        },
+        {
+            "weekday": "Sunday",
+            "video_count": 15,
+            "average_views": 410501.5333333333,
+            "average_likes": 8624.066666666668
+        }
+    ],
+    "by_hour": [
+        {
+            "hour": 9,
+            "video_count": 2,
+            "average_views": 740517.5,
+            "average_likes": 15314.5
+        },
+        {
+            "hour": 10,
+            "video_count": 8,
+            "average_views": 253733.75,
+            "average_likes": 5457.625
+        },
+        {
+            "hour": 11,
+            "video_count": 9,
+            "average_views": 207680.33333333334,
+            "average_likes": 3749.6666666666665
+        },
+        {
+            "hour": 12,
+            "video_count": 26,
+            "average_views": 258291.15384615384,
+            "average_likes": 5450.692307692308
+        },
+        {
+            "hour": 13,
+            "video_count": 30,
+            "average_views": 430463.7,
+            "average_likes": 8651.566666666668
+        },
+        {
+            "hour": 14,
+            "video_count": 22,
+            "average_views": 341873.7727272727,
+            "average_likes": 6594.045454545455
+        },
+        {
+            "hour": 15,
+            "video_count": 3,
+            "average_views": 177953.66666666666,
+            "average_likes": 3539.6666666666665
+        }
+    ]
+}

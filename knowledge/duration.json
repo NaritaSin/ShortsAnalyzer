@@ -1,0 +1,25 @@
+{
+    "average_duration_seconds": 57.87,
+    "longest_duration_seconds": 74,
+    "shortest_duration_seconds": 39,
+    "duration_groups": [
+        {
+            "group": "30-45",
+            "video_count": 9,
+            "average_views": 536807.7777777778,
+            "average_likes": 11962.333333333334
+        },
+        {
+            "group": "45-60",
+            "video_count": 36,
+            "average_views": 334583.3333333333,
+            "average_likes": 6482.194444444444
+        },
+        {
+            "group": "60+",
+            "video_count": 55,
+            "average_views": 294333.14545454545,
+            "average_likes": 5890.363636363636
+        }
+    ]
+}
