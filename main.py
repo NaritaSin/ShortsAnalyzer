@@ -15,6 +15,7 @@ from shorts_analyzer.analysis.keyword import analyze_keywords
 from shorts_analyzer.analysis.pattern import analyze_patterns
 from shorts_analyzer.analysis.posting import analyze_posting
 from shorts_analyzer.analysis.title import analyze_titles
+from shorts_analyzer.analysis.trend import analyze_trends
 from shorts_analyzer.export import save_videos_csv
 from shorts_analyzer.statistics import analyze_videos
 
@@ -60,6 +61,7 @@ def main() -> None:
     hashtag_analysis = analyze_hashtags(videos)
     keyword_analysis = analyze_keywords(videos)
     pattern_analysis = analyze_patterns(videos)
+    trend_analysis = analyze_trends(videos)
 
     print(f"Fetched {len(videos)} videos")
     print(f"Saved to {OUTPUT_PATH}")
@@ -163,6 +165,42 @@ def main() -> None:
             f"avg views {row['average_views']:,.0f}, "
             f"avg likes {row['average_likes']:,.0f}"
         )
+
+    print()
+    print("===== Trend Analysis =====")
+    print("Older Dataset")
+    print(f"  Average Views: {trend_analysis['older']['average_views']:,.0f}")
+    print(f"  Average Likes: {trend_analysis['older']['average_likes']:,.0f}")
+    print(f"  Average Comments: {trend_analysis['older']['average_comments']:,.0f}")
+    print(
+        f"  Average Duration: {trend_analysis['older']['average_duration']:.1f} sec"
+    )
+
+    print("Newer Dataset")
+    print(f"  Average Views: {trend_analysis['newer']['average_views']:,.0f}")
+    print(f"  Average Likes: {trend_analysis['newer']['average_likes']:,.0f}")
+    print(f"  Average Comments: {trend_analysis['newer']['average_comments']:,.0f}")
+    print(
+        f"  Average Duration: {trend_analysis['newer']['average_duration']:.1f} sec"
+    )
+
+    print("Differences")
+    print(
+        "  Views Change: "
+        f"{trend_analysis['differences']['views_change_percent']:+.1f}%"
+    )
+    print(
+        "  Likes Change: "
+        f"{trend_analysis['differences']['likes_change_percent']:+.1f}%"
+    )
+    print(
+        "  Comments Change: "
+        f"{trend_analysis['differences']['comments_change_percent']:+.1f}%"
+    )
+    print(
+        "  Duration Change: "
+        f"{trend_analysis['differences']['duration_change_seconds']:+.1f} sec"
+    )
 
 
 if __name__ == "__main__":
