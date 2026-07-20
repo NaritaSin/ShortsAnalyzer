@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 
 from shorts_analyzer import YouTubeAPIError, YouTubeClient
 from shorts_analyzer.analysis.duration import analyze_duration
+from shorts_analyzer.analysis.hashtag import analyze_hashtags
 from shorts_analyzer.analysis.posting import analyze_posting
 from shorts_analyzer.analysis.title import analyze_titles
 from shorts_analyzer.export import save_videos_csv
@@ -54,6 +55,7 @@ def main() -> None:
     title_analysis = analyze_titles(videos)
     posting_analysis = analyze_posting(videos)
     duration_analysis = analyze_duration(videos)
+    hashtag_analysis = analyze_hashtags(videos)
 
     print(f"Fetched {len(videos)} videos")
     print(f"Saved to {OUTPUT_PATH}")
@@ -119,6 +121,18 @@ def main() -> None:
             f"{row['video_count']} videos, "
             f"avg views {row['average_views']:,.0f}, "
             f"avg likes {row['average_likes']:,.0f}"
+        )
+
+    print()
+    print("===== Hashtag Analysis =====")
+    print("Top 10 Hashtags:")
+    for row in hashtag_analysis["hashtags"][:10]:
+        print(
+            f"  #{row['tag']}: "
+            f"{row['count']} uses, "
+            f"avg views {row['average_views']:,.0f}, "
+            f"avg likes {row['average_likes']:,.0f}, "
+            f"avg comments {row['average_comments']:,.0f}"
         )
 
 
