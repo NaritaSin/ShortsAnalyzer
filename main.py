@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import os
 import sys
 from pathlib import Path
@@ -17,13 +18,17 @@ from shorts_analyzer.analysis.posting import analyze_posting
 from shorts_analyzer.analysis.title import analyze_titles
 from shorts_analyzer.analysis.trend import analyze_trends
 from shorts_analyzer.export import save_videos_csv
+from shorts_analyzer.generation.prompt_builder import build_script_prompt
 from shorts_analyzer.knowledge.exporter import export_knowledge
 from shorts_analyzer.knowledge.profile import generate_channel_profile
 from shorts_analyzer.statistics import analyze_videos
 
 PROJECT_ROOT = Path(__file__).resolve().parent
 OUTPUT_PATH = PROJECT_ROOT / "output" / "videos.csv"
+SCRIPT_PROMPT_PATH = PROJECT_ROOT / "output" / "script_prompt.txt"
 KNOWLEDGE_PATH = PROJECT_ROOT / "knowledge"
+CHANNEL_PROFILE_PATH = KNOWLEDGE_PATH / "channel_profile.json"
+TEST_TOPIC = "エミュー戦争"
 CHANNEL_HANDLE = "@雑学をまとめる犬"
 MAX_RESULTS = 100
 
@@ -79,9 +84,17 @@ def main() -> None:
     knowledge["channel_profile"] = generate_channel_profile(knowledge)
     export_knowledge(knowledge, KNOWLEDGE_PATH)
 
+    with CHANNEL_PROFILE_PATH.open(encoding="utf-8") as file:
+        channel_profile = json.load(file)
+
+    script_prompt = build_script_prompt(channel_profile, TEST_TOPIC)
+    SCRIPT_PROMPT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    SCRIPT_PROMPT_PATH.write_text(script_prompt, encoding="utf-8")
+
     print(f"Fetched {len(videos)} videos")
     print(f"Saved to {OUTPUT_PATH}")
     print(f"Exported knowledge to {KNOWLEDGE_PATH}")
+    print(f"Prompt saved to {SCRIPT_PROMPT_PATH}")
 
     print()
     print("===== Analysis =====")
